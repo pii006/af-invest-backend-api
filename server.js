@@ -15,10 +15,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Konfigurasi CORS
-// Ini sangat PENTING! Ganti 'https://<username>.github.io/<repository-name>/'
-// dengan URL GitHub Pages frontend Anda yang sebenarnya.
+// Ini sangat PENTING! URL ini HARUS sama persis dengan URL GitHub Pages frontend Anda.
+// Mengizinkan kedua kemungkinan origin dari GitHub Pages
 const corsOptions = {
-  origin: ['https://pii006.github.io', 'https://pii006.github.io/af-invest/'],
+  origin: ['https://pii006.github.io', 'https://pii006.github.io/af-invest/'], // Mengizinkan kedua origin
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 204
