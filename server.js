@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 // Ini sangat PENTING! Ganti 'https://<username>.github.io/<repository-name>/'
 // dengan URL GitHub Pages frontend Anda yang sebenarnya.
 const corsOptions = {
-  origin: 'https://pii006.github.io/af-invest-frontend/', // Contoh: Ganti dengan URL GitHub Pages Anda
+  origin: 'https://pii006.github.io/af-invest/', // Contoh: Ganti dengan URL GitHub Pages Anda
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 204
