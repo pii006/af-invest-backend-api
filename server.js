@@ -1,40 +1,49 @@
- // server.js
-    const express = require('express');
-    const mongoose = require('mongoose');
-    const dotenv = require('dotenv'); // Untuk membaca .env file
+// server.js
+const express = require('express');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const cors = require('cors'); // Import cors middleware
 
-    // Muat variabel lingkungan dari .env file
-    dotenv.config();
+// Muat variabel lingkungan dari file .env
+dotenv.config();
 
-    const app = express();
-    const PORT = process.env.PORT || 3000;
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-    // Middleware: Untuk parsing JSON body dari request dan URL-encoded data
-    app.use(express.json());
-    app.use(express.urlencoded({ extended: true }));
+// Middleware untuk parsing JSON di body request
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-    // Koneksi ke MongoDB
-    mongoose.connect(process.env.MONGO_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
-    .then(() => console.log('Terhubung ke MongoDB')) // Pesan sukses koneksi
-    .catch(err => console.error('Kesalahan koneksi MongoDB:', err)); // Pesan error koneksi
+// Konfigurasi CORS
+// Ini sangat PENTING! Ganti 'https://<username>.github.io/<repository-name>/'
+// dengan URL GitHub Pages frontend Anda yang sebenarnya.
+const corsOptions = {
+  origin: 'https://pii006.github.io/af-invest-frontend/', // Contoh: Ganti dengan URL GitHub Pages Anda
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  optionsSuccessStatus: 204
+};
+app.use(cors(corsOptions));
 
-    // Import Routes (akan kita buat di langkah selanjutnya)
-    const authRoutes = require('./routes/auth');
-    const stockPickRoutes = require('./routes/stockpicks');
+// Koneksi ke MongoDB
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log('Terhubung ke MongoDB Atlas'))
+  .catch(err => console.error('Gagal terhubung ke MongoDB Atlas:', err));
 
-    // Gunakan Routes
-    app.use('/api/auth', authRoutes); // Rute untuk autentikasi (login/register)
-    app.use('/api/stockpicks', stockPickRoutes); // Rute untuk rekomendasi saham
+// Impor rute-rute API
+const authRoutes = require('./routes/auth');
+const stockPicksRoutes = require('./require'); // Perbaiki ini jika salah
 
-    // Rute dasar untuk menguji server
-    app.get('/', (req, res) => {
-        res.send('Selamat datang di Backend AF Invest!');
-    });
+// Gunakan rute-rute API
+app.use('/api/auth', authRoutes);
+app.use('/api/stockpicks', stockPicksRoutes);
 
-    // Mulai server
-    app.listen(PORT, () => {
-        console.log(`Server berjalan di port ${PORT}`);
-    });
+// Rute dasar untuk menguji server
+app.get('/', (req, res) => {
+  res.send('AF Invest Backend API is running!');
+});
+
+// Jalankan server
+app.listen(PORT, () => {
+  console.log(`Server berjalan di port ${PORT}`);
+});
