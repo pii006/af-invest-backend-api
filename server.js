@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 // Ini sangat PENTING! Ganti 'https://<username>.github.io/<repository-name>/'
 // dengan URL GitHub Pages frontend Anda yang sebenarnya.
 const corsOptions = {
-  origin: 'https://pii006.github.io/af-invest/', // Contoh: Ganti dengan URL GitHub Pages Anda
+  origin: 'https://pii006.github.io/af-invest/', // Pastikan ini adalah URL GitHub Pages frontend Anda
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 204
@@ -32,7 +32,7 @@ mongoose.connect(process.env.MONGO_URI)
 
 // Impor rute-rute API
 const authRoutes = require('./routes/auth');
-const stockPicksRoutes = require('./require'); // Perbaiki ini jika salah
+const stockPicksRoutes = require('./routes/stockpicks'); // Pastikan path ini benar
 
 // Gunakan rute-rute API
 app.use('/api/auth', authRoutes);
